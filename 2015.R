@@ -14,48 +14,34 @@ is.numeric("cantidad exportada(MU$D)")
 #LO CONVERTIMOS EN UN DATAFRAME
 Data_2015 <- as.data.frame(Data_2015)
 is.data.frame(Data_2015)
+
 #REMOVEMOS LOS VALORES QUE SON 0
 Data_2015Mej <- subset(Data_2015, Data_2015$"cantidad exportada(MU$D)">0) 
 Data_2015Mej <- as.data.frame(Data_2015Mej)
 is.data.frame(Data_2015Mej)
 
 
-#EDA
-#ventas de china segun productos
-china_expo <- subset(Data_2015Mej, Exportador == "China")
-china_expo
-expos_china <- ggplot(china_expo, aes(x = china_expo$"Producto/Servicio" , y = china_expo$"cantidad exportada(MU$D)"))+
-  geom_bar(stat = "identity", fill = "darkorchid4")+
-  xlab("Producto/Servicio")+
-  ylab("Cantidad exportada")+
-  ggtitle("Exportaciones de China por producto")
-expos_china <- expos_china + theme_classic()
-expos_china
-#exportaciones segun pais asiatico
-datadef <- Data_2015Mej[c("Exportador","Producto/Servicio", "Receptor", "cantidad exportada(MU$D)")]
-datadef <- as.data.frame(datadef)
-asia_expos <- datadef %>%
-  group_by(Exportador)+
-  summarize(mediaexpo = mean(datadef$"cantidad exportada(MU$D)", na.rm = TRUE))
-
-
-ggplot(Data_2015, aes(x = Data_2015Mej$Exportador, y = Data_2015Mej$"cantidad exportada(MU$D)"))+
-  geom_bar(stat = "identity") +
-  xlab("Country") +
-  ylab("Quantity Exported") +
-  ggtitle("Quantity Exported by Country")
-
-#CREAMOS LOS NODOS
-str(vertices)
+# CREAMOS LOS NODOS
 vertices <- unique(c(edges$Exportador, edges$Receptor))
 
-#CREAMOS LOS EDGES
-str(edges)
+# CREAMOS LOS EDGES
 edges <- Data_2015Mej[, c("Exportador", "Receptor", "cantidad exportada(MU$D)")]
-edges <- data.frame(
-  From = edges$Exportador,
-  to = edges$Receptor,
-  weight = edges$`cantidad exportada(MU$D)`)
+edges <- as.data.frame(edges)
+
+# COMENZAMOS A CREAR LA RED
+red_2015 <- graph_from_data_frame(edges, vertices = vertices, directed = TRUE)
+
+# PLOTEAMOS LA RED
+grafico_2015 <- plot(
+  red_2015,
+  layout = layout.fruchterman.reingold(red_2015, repulserad = 10, niter = 1000),
+  vertex.color = ifelse(V(red_2015)$name %in% edges$Exportador, "red4", "cyan3"),
+  vertex.size = ifelse(V(red_2015)$name %in% edges$Exportador, 10, 5),
+  edge.width = 0.1,
+  edge.color = "grey35",
+  edge.arrow.size = 0.25,
+  vertex.label.color = "black" # Set the color of the node labels
+)
 
 edges <- as.data.frame(edges)
 is.data.frame(edges)
