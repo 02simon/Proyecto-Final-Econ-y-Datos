@@ -1,7 +1,8 @@
 # Proyecto-Final-Econ-y-Datos
 ## Análisis usando R de los cambios en el comercio de China, Japón, Corea del Sur, Hong Kong, India, Indonesia, Malasia y Singapur.
 
-## Hipótesis: ¿Se observa un crecimiento en la importancia en términos comerciales de los países analizados entre los años 1999 y 2019?
+## Hipótesis
+### ¿Se observa un crecimiento en la importancia en términos comerciales de los países analizados entre los años 1999 y 2019?
 
 ## Análisis:
 ### A través de las estadísticas de los grafos como los distintos tipos de centralidad es posible determinar la relevancia que tiene cada país en respecto del comercio mundial. Con los heatmaps también se puede observar la densidad del intercambio entre las distintas regiones. Ponderar la centralidad de grado y el PBI permite determinar de una manera general qué países cumplen roles protagónicos en este contexto. Finalmente, el gráfico de barras facilita la visualización del aumento general del volumen comerciado en los países analizados.
